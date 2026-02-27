@@ -1,27 +1,31 @@
-const data = 'https://jsonplaceholder.typicode.com/users'
+const url = 'https://jsonplaceholder.typicode.com/users'
 
 ;(async () => {
   try {
-    const response = await fetch(data)
+    const response = await fetch(url)
     if (!response.ok) throw response.status
 
-    let res = await response.json()
-    res.map((value) => value.email = value.email.toLowerCase())
-    console.log(res)
+    const res = await response.json()
+    const data = res.map(value => {
+      value.email = value.email.toLowerCase()
+      return value
+    })
+    console.log(data)
   } catch (err) {
     console.log('Error', err);
+  } finally {
+    console.log("\n-------------------\n");
   }
 })()
 
-fetch(data)
+fetch(url)
   .then(response => {
     if (!response.ok) throw response.status
 
     return response.json()
   })
   .then(res => {
-    // console.log(res);
-    res.map(val => {
+    const data = res.map(val => {
       let result = '';
       let email = val.email
       for (let i = 0; i < email.length; i++) {
@@ -37,12 +41,9 @@ fetch(data)
       return val;
     })
 
-    console.log(res);
+    console.log(data);
     
   })
   .catch(err => {
     console.log("error", err);
-  })
-  .finally(() => {
-    console.log("\n-------------------\n");
   })
